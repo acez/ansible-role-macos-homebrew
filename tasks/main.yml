@@ -1,28 +1,28 @@
 ---
-- name: upgrade homebrew
+- name: Upgrade homebrew
   community.general.homebrew:
-    update_homebrew: yes
+    update_homebrew: true
 
-- name: add homebrew taps
+- name: Add homebrew taps
   community.general.homebrew_tap:
     name: "{{ item.name }}"
-    state: "{{ item.state|default('present') }}"
+    state: "{{ item.state | default('present') }}"
   with_items: "{{ macos_homebrew_taps }}"
   when: macos_homebrew_taps != None
 
-- name: ensure homebrew packages
+- name: Ensure homebrew packages
   community.general.homebrew:
     name: "{{ item.name }}"
-    state: "{{ item.state|default('latest') }}"
-    install_options: "{{ item.install_options|default() }}"
+    state: "{{ item.state | default('latest') }}"
+    install_options: "{{ item.install_options | default() }}"
   with_items: "{{ macos_homebrew_formulae }}"
   when: macos_homebrew_formulae != None
 
-- name: ensure homebrew cask packages
+- name: Ensure homebrew cask packages
   community.general.homebrew_cask:
     name: "{{ item.name }}"
-    state: "{{ item.state|default('latest') }}"
-    install_options: "{{ item.install_options|default() }}"
-    greedy: "{{ item.greedy|default('yes') }}"
+    state: "{{ item.state | default('latest') }}"
+    install_options: "{{ item.install_options | default() }}"
+    greedy: "{{ item.greedy | default('true') }}"
   with_items: "{{ macos_homebrew_casks }}"
   when: macos_homebrew_casks != None
